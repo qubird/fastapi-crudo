@@ -1,0 +1,73 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fastapi-crudo"
+version = "0.3.0"
+description = "Auto-generate CRUD admin interfaces for SQLAlchemy models in FastAPI"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Vincenzo Antignano" }]
+keywords = [
+    "fastapi",
+    "crud",
+    "admin",
+    "admin-panel",
+    "sqlalchemy",
+    "postgresql",
+    "postgis",
+    "database",
+    "dashboard",
+    "backoffice",
+    "pydantic",
+    "auto-crud",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Framework :: Pydantic :: 2",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Database :: Front-Ends",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "fastapi>=0.100.0",
+    "sqlalchemy>=1.4.0",
+    "pydantic>=2.0.0",
+    "jinja2>=3.0.0",
+    "itsdangerous>=2.0.0",
+    "authlib>=1.0.0",
+    "httpx>=0.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "uvicorn[standard]",
+    "pytest",
+    "httpx",
+]
+
+[project.urls]
+Homepage = "https://github.com/qubird/fastapi-crudo"
+Repository = "https://github.com/qubird/fastapi-crudo"
+Issues = "https://github.com/qubird/fastapi-crudo/issues"
+Documentation = "https://github.com/qubird/fastapi-crudo#readme"
+Changelog = "https://github.com/qubird/fastapi-crudo/releases"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fast_api_crudo"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"fast_api_crudo/static" = "fast_api_crudo/static"
+"fast_api_crudo/templates" = "fast_api_crudo/templates"

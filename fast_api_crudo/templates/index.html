@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍖</text></svg>">
+    <link rel="stylesheet" href="{{ static_base }}/style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Config injected by the server -->
+    <script>
+        window.CRUDO_CONFIG = {
+            apiBase: "{{ api_base }}",
+            title: "{{ title }}",
+            prefix: "{{ static_base | replace('/static', '') }}",
+            version: "{{ version }}",
+            userName: "{{ user_name }}",
+            userEmail: "{{ user_email }}",
+            userRole: "{{ user_role }}",
+            logoutUrl: "{{ logout_url }}"
+        };
+    </script>
+
+    <!-- React 18 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel standalone (compiles JSX in-browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Crudo App -->
+    <script type="text/babel" src="{{ static_base }}/app.js"></script>
+</body>
+</html>

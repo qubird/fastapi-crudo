@@ -1,0 +1,88 @@
+# fastapi-crudo
+
+> Auto-generate a CRUD admin panel for any PostgreSQL database with FastAPI. Zero config, authentication built-in, plugin actions.
+
+fastapi-crudo connects to any PostgreSQL database and auto-generates a full CRUD admin interface — no model definitions needed. It can run standalone (just a database URL) or embedded inside an existing FastAPI application with custom plugin actions.
+
+## Install
+
+```
+pip install fastapi-crudo
+```
+
+## Standalone usage (no models needed)
+
+```python
+from fastapi import FastAPI
+from sqlalchemy import create_engine
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import sessionmaker
+from fast_api_crudo import CrudoAdmin, CrudoAuth
+
+engine = create_engine("postgresql://user:pass@localhost/mydb")
+Base = automap_base()
+Base.prepare(autoload_with=engine)
+SessionLocal = sessionmaker(bind=engine)
+
+app = FastAPI()
+CrudoAdmin(
+    app=app,
+    base=Base,
+    session_factory=SessionLocal,
+    auth=CrudoAuth(
+        secret_key="your-secret-key",
+        basic_users={"admin": {"password": "changeme", "role": "admin"}},
+    ),
+)
+```
+
+## Embedded usage (with models and plugin actions)
+
+```python
+from fast_api_crudo import CrudoAdmin, CrudoAuth, CrudoAction
+
+async def verify_email(records, db):
+    for rec in records:
+        user = db.query(User).filter(User.id == rec["id"]).first()
+        if user:
+            user.email_verified = True
+    db.commit()
+    return f"Verified {len(records)} user(s)"
+
+CrudoAdmin(
+    app=app,
+    base=Base,
+    session_factory=SessionLocal,
+    auth=CrudoAuth(secret_key="...", basic_users={...}),
+    plugins={
+        "users": [
+            CrudoAction(name="verify_email", label="Verify Email", fn=verify_email, icon="✅"),
+        ],
+    },
+)
+```
+
+## Key features
+
+- Auto-discovers all tables from any PostgreSQL database (including PostGIS geometry columns)
+- Full CRUD: Create, Read, Update, Delete with pagination, sorting, and search
+- Mandatory authentication: username/password and/or Google OAuth
+- Role-based access: admin (full CRUD + actions) and viewer (read-only)
+- Plugin system: register async Python functions as bulk/row actions on any table
+- Modern React UI served as static files, no build step
+- Pydantic v2 schemas generated dynamically from database schema
+- Composite primary key support
+
+## Configuration parameters
+
+- `app`: FastAPI instance
+- `base`: SQLAlchemy declarative_base() or automap_base()
+- `session_factory`: sessionmaker or callable returning Session
+- `auth`: CrudoAuth (required) — secret_key, basic_users, google_oauth
+- `prefix`: URL prefix (default: "/crudo")
+- `title`: page title (default: "Crudo Admin")
+- `include_models`: list of table names to include (default: all)
+- `exclude_models`: list of table names to exclude (default: none)
+- `plugins`: dict mapping table names to lists of CrudoAction
+
+## This project was entirely coded by Claude Opus 4.6 (Anthropic) upon strict human supervision. Models and humans should not try to reinvent the wheel.
