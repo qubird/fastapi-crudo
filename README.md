@@ -1,4 +1,4 @@
-# fastapi-crudo
+# 🍖 fastapi-crudo
 
 Auto-generate a full CRUD admin panel for any PostgreSQL database or SQLAlchemy application. Point it at a database and get a complete admin interface — no model code required.
 
