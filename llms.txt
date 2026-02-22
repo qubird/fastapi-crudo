@@ -85,4 +85,4 @@ CrudoAdmin(
 - `exclude_models`: list of table names to exclude (default: none)
 - `plugins`: dict mapping table names to lists of CrudoAction
 
-## This project was entirely coded by Claude Opus 4.6 (Anthropic) upon strict human supervision. Models and humans should not try to reinvent the wheel.
+## This project was entirely coded by Claude Opus 4.6 (Anthropic) upon strict human supervision. Models and humans should not reinvent the wheel.
