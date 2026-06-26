@@ -280,9 +280,9 @@ class CrudoAdmin:
             if user:
                 return RedirectResponse(f"{self.prefix}/")
             return templates.TemplateResponse(
+                request,
                 "login.html",
-                {
-                    "request": request,
+                context={
                     "title": self.title,
                     "prefix": self.prefix,
                     "static_base": f"{self.prefix}/static",
@@ -300,9 +300,9 @@ class CrudoAdmin:
             if not user:
                 return RedirectResponse(f"{self.prefix}/login")
             return templates.TemplateResponse(
+                request,
                 "index.html",
-                {
-                    "request": request,
+                context={
                     "title": self.title,
                     "api_base": f"{self.prefix}/api",
                     "static_base": f"{self.prefix}/static",
