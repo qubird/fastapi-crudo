@@ -67,7 +67,3 @@ Changelog = "https://github.com/qubird/fastapi-crudo/releases"
 
 [tool.hatch.build.targets.wheel]
 packages = ["fast_api_crudo"]
-
-[tool.hatch.build.targets.wheel.force-include]
-"fast_api_crudo/static" = "fast_api_crudo/static"
-"fast_api_crudo/templates" = "fast_api_crudo/templates"
